@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8ff">
+  <title>LeadGen Pro — Business Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#"><span class="brand-mark"><i class="bi bi-compass-fill"></i></span><span>LeadGen<span class="brand-light"> Pro</span><small>BUSINESS INTELLIGENCE</small></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav class="side-nav">
+      <a class="nav-link active" href="#dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+      <a class="nav-link" href="#finder"><i class="bi bi-search"></i> Find Businesses</a>
+      <a class="nav-link" href="#leads"><i class="bi bi-people"></i> All Leads <span class="nav-count" id="sideLeadCount">0</span></a>
+    </nav>
+    <div class="side-label">PREFERENCES</div>
+    <nav class="side-nav">
+      <a class="nav-link" href="#history"><i class="bi bi-clock-history"></i> Search History</a>
+      <a class="nav-link" href="#exports"><i class="bi bi-file-earmark-arrow-down"></i> Export Leads</a>
+      <a class="nav-link" href="#settings"><i class="bi bi-sliders"></i> Settings</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="help-card"><div class="help-icon"><i class="bi bi-stars"></i></div><strong>Need a hand?</strong><p>Explore the guide to get more from your leads.</p><a href="#guide">View quick guide <i class="bi bi-arrow-up-right"></i></a></div><div class="api-status"><span class="status-dot"></span><span id="apiStatus">Checking API connection…</span></div></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open menu"><i class="bi bi-list"></i></button><div class="crumb">Workspace <i class="bi bi-chevron-right"></i> <strong>Dashboard</strong></div><div class="top-actions"><button class="icon-btn" id="themeBtn" title="Toggle theme"><i class="bi bi-moon-stars"></i></button><button class="icon-btn notification" title="Notifications"><i class="bi bi-bell"></i><span></span></button><div class="profile"><div class="avatar">TG</div><div><strong>Team Guest</strong><small>Free workspace</small></div><i class="bi bi-chevron-down"></i></div></div></header>
+    <div class="content" id="dashboard">
+      <section class="welcome-row reveal"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR GROWTH WORKSPACE</div><h1>Find your next <span>great lead.</span></h1><p>Discover businesses, uncover opportunities, and build your pipeline.</p></div><div class="date-chip"><i class="bi bi-calendar3"></i> Live workspace</div></section>
+      <section class="stats-grid reveal">
+        <article class="stat-card"><div class="stat-top"><span>Total businesses found</span><span class="stat-icon violet"><i class="bi bi-buildings"></i></span></div><div class="stat-value" id="statFound">0</div><div class="stat-foot"><span class="stat-note">Across your searches</span></div><div class="stat-decoration"></div></article>
+        <article class="stat-card"><div class="stat-top"><span>Total searches</span><span class="stat-icon blue"><i class="bi bi-search"></i></span></div><div class="stat-value" id="statSearches">0</div><div class="stat-foot"><span class="stat-note">This session</span></div><div class="stat-decoration"></div></article>
+        <article class="stat-card"><div class="stat-top"><span>With websites</span><span class="stat-icon cyan"><i class="bi bi-globe2"></i></span></div><div class="stat-value" id="statWebsites">0</div><div class="stat-foot"><span class="stat-note">Online presence</span></div><div class="stat-decoration"></div></article>
+        <article class="stat-card"><div class="stat-top"><span>With phone numbers</span><span class="stat-icon orange"><i class="bi bi-telephone"></i></span></div><div class="stat-value" id="statPhones">0</div><div class="stat-foot"><span class="stat-note">Direct contact details</span></div><div class="stat-decoration"></div></article>
+      </section>
+      <section class="search-panel reveal" id="finder"><div class="section-heading"><div><div class="eyebrow">LEAD DISCOVERY</div><h2>Find businesses</h2><p>Tell us what you're looking for and where to find it.</p></div><span class="powered"><i class="bi bi-lightning-charge-fill"></i> Powered by Geoapify</span></div>
+        <form id="searchForm" class="search-form"><label class="field"><span>Business category or keyword</span><div class="input-wrap"><i class="bi bi-building"></i><input id="keyword" required placeholder="e.g. Restaurants, software houses, hotels"></div></label><label class="field"><span>Location</span><div class="input-wrap"><i class="bi bi-geo-alt"></i><input id="location" required placeholder="e.g. Lahore, Pakistan"></div></label><label class="field compact-field"><span>Search radius</span><div class="input-wrap"><i class="bi bi-broadcast"></i><select id="radius"><option value="1000">1 km</option><option value="3000">3 km</option><option value="5000" selected>5 km</option><option value="10000">10 km</option><option value="25000">25 km</option><option value="50000">50 km</option></select></div></label><label class="field compact-field"><span>Max results</span><div class="input-wrap"><i class="bi bi-list-ol"></i><select id="limit"><option>25</option><option selected>50</option><option>100</option><option>250</option><option>500</option></select></div></label><button class="primary-btn" id="searchBtn"><i class="bi bi-search"></i><span>Find businesses</span></button></form>
+        <div class="search-hint"><i class="bi bi-info-circle"></i> Results depend on the data available from Geoapify for your selected area.</div>
+      </section>
+      <section class="results-section reveal" id="leads"><div class="results-heading"><div><div class="eyebrow">YOUR PIPELINE</div><h2>Business leads <span class="result-pill" id="resultCount">0</span></h2><p id="resultSubtitle">Your discovered businesses will appear here.</p></div><div class="export-actions"><button class="outline-btn" id="csvBtn"><i class="bi bi-filetype-csv"></i> CSV</button><button class="outline-btn" id="excelBtn"><i class="bi bi-file-earmark-excel"></i> Excel</button></div></div>
+        <div class="table-toolbar"><div class="table-search"><i class="bi bi-search"></i><input id="tableSearch" placeholder="Search leads..."></div><div class="filter-group"><select id="contactFilter"><option value="all">All leads</option><option value="website">Has website</option><option value="phone">Has phone</option></select><button class="outline-btn small-btn" id="savedBtn"><i class="bi bi-bookmark"></i> Saved leads</button></div></div>
+        <div class="table-wrap"><table><thead><tr><th><input type="checkbox" id="selectAll" aria-label="Select all"></th><th>BUSINESS</th><th>CATEGORY</th><th>ADDRESS</th><th>PHONE</th><th>WEBSITE</th><th>MAP</th></tr></thead><tbody id="leadsBody"><tr class="empty-row"><td colspan="7"><div class="empty-state"><div class="empty-illustration"><i class="bi bi-compass"></i></div><strong>Your next lead is out there</strong><p>Start by searching for a business category and location above.</p><a href="#finder">Start discovering <i class="bi bi-arrow-up-right"></i></a></div></td></tr></tbody></table></div>
+        <div class="table-footer"><span id="showingText">Showing 0 businesses</span><div class="pagination"><button id="prevPage" disabled><i class="bi bi-chevron-left"></i></button><span id="pageText">1 / 1</span><button id="nextPage" disabled><i class="bi bi-chevron-right"></i></button></div></div>
+      </section>
+      <section class="map-section reveal"><div class="section-heading"><div><div class="eyebrow">LOCATION OVERVIEW</div><h2>Lead map</h2><p>Explore the businesses returned by your current search.</p></div><span class="map-legend"><span></span> Business locations</span></div><div id="map"></div></section>
+      <section class="bottom-grid reveal" id="guide"><div class="info-card"><div class="info-icon"><i class="bi bi-magic"></i></div><div><h3>Make discovery count</h3><p>Use focused categories and a smaller radius to find more relevant local businesses.</p></div></div><div class="info-card"><div class="info-icon teal"><i class="bi bi-shield-check"></i></div><div><h3>Your data, clearly sourced</h3><p>Contact details are shown only when supplied by Geoapify. Missing fields are never invented.</p></div></div></section>
+      <footer>© 2026 LeadGen Pro <span>Discover Businesses. Generate Leads. Grow Faster.</span></footer>
+    </div>
+  </main>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<div class="overlay" id="overlay"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body></html>
